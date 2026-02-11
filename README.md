@@ -19,7 +19,8 @@ Each notification shows which **Ghostty terminal tab** triggered it, so you can 
 ## Features
 
 - Native macOS notifications with custom Claude icon
-- Ghostty tab detection — notifications show `[Tab 3]` so you know exactly where to look
+- Full Ghostty terminal support — notifications show `[Tab 3]` so you know exactly where to look
+- Falls back to project directory name for other terminals
 - Fast bash hook — no Node.js or TypeScript overhead
 - Works globally across all projects
 - Handles all Claude Code notification events
@@ -30,7 +31,7 @@ Each notification shows which **Ghostty terminal tab** triggered it, so you can 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
 - [jq](https://jqlang.github.io/jq/) (`brew install jq`)
 - Xcode Command Line Tools (`xcode-select --install`)
-- [Ghostty](https://ghostty.org/) terminal (for tab detection, optional)
+- [Ghostty](https://ghostty.org/) terminal (full support with tab detection)
 
 ## Installation
 
@@ -86,9 +87,17 @@ ClaudeCodeNotifier uses a TTY marker technique to identify which Ghostty tab tri
 
 This happens in ~50ms and is invisible to the user. If Ghostty isn't detected or accessibility isn't enabled, it falls back to showing the project directory name.
 
+## Terminal support
+
+| Terminal | Status | Tab detection |
+|----------|--------|---------------|
+| Ghostty  | Full support | Tab number via TTY marker |
+| Others   | Basic support | Falls back to project name |
+
 ## Roadmap
 
 - [ ] Click notification to focus the correct Ghostty tab
+- [ ] Support for more terminals (iTerm2, Warp, Kitty, Alacritty)
 - [ ] OpenAI Codex support
 - [ ] Windows support
 - [ ] Linux support
