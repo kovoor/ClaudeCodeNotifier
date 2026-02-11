@@ -2,8 +2,10 @@
 
 Native macOS desktop notifications for [Claude Code](https://docs.anthropic.com/en/docs/claude-code). Get alerted when Claude needs your attention — no more staring at the terminal.
 
-![ClaudeCodeNotifier - Permission Required](screenshots/permission-required.png)
-![ClaudeCodeNotifier - Task Complete](screenshots/notification.png)
+<p align="center">
+  <img src="screenshots/permission-required.png" width="420" alt="Permission required notification" />
+  <img src="screenshots/notification.png" width="420" alt="Task complete notification" />
+</p>
 
 ## What it does
 
@@ -14,12 +16,12 @@ ClaudeCodeNotifier hooks into Claude Code's notification system and sends native
 - **Input needed** — Claude has a question and needs your response
 - **Any other event** — Catches all notification types Claude Code may send
 
-Each notification shows which **Ghostty terminal tab** triggered it, so you can jump straight to the right session.
+Each notification shows which **terminal tab** triggered it, so you can jump straight to the right session.
 
 ## Features
 
 - Native macOS notifications with custom Claude icon
-- Full Ghostty terminal support — notifications show `[Tab 3]` so you know exactly where to look
+- Ghostty tab detection — notifications show `[Tab 3]` so you know exactly where to look
 - Falls back to project directory name for other terminals
 - Fast bash hook — no Node.js or TypeScript overhead
 - Works globally across all projects
@@ -30,10 +32,19 @@ Each notification shows which **Ghostty terminal tab** triggered it, so you can 
 - macOS
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code)
 - [jq](https://jqlang.github.io/jq/) (`brew install jq`)
-- Xcode Command Line Tools (`xcode-select --install`)
-- [Ghostty](https://ghostty.org/) terminal (full support with tab detection)
+- Terminal of your choice (currently best supported with [Ghostty](https://ghostty.org/))
 
-## Installation
+## Quick install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kovoor/ClaudeCodeNotifier/main/install-quick.sh | bash
+```
+
+This downloads the pre-built app and configures everything automatically.
+
+## Install from source
+
+Requires Xcode Command Line Tools (`xcode-select --install`).
 
 ```bash
 git clone https://github.com/kovoor/ClaudeCodeNotifier.git
@@ -41,21 +52,15 @@ cd ClaudeCodeNotifier
 ./install.sh
 ```
 
-The install script will:
-1. Build the native macOS app from source
-2. Install it to `~/.claude/ClaudeCodeNotifier.app`
-3. Install the notification hook to `~/.claude/hooks/`
-4. Configure `~/.claude/settings.json`
-
-### Post-install
+## Post-install
 
 1. **Allow notifications** — When prompted, allow notifications for "Claude Code Notifier" in System Settings > Notifications
-2. **Ghostty accessibility** (optional) — For tab detection, grant Ghostty access in System Settings > Privacy & Security > Accessibility
+2. **Ghostty accessibility** *(optional)* — For tab detection, grant Ghostty access in System Settings > Privacy & Security > Accessibility
 3. **Restart Claude Code** for hooks to take effect
 
 ### Manual configuration
 
-If you already have a `~/.claude/settings.json`, add the hooks config:
+If you already have a `~/.claude/settings.json`, merge the hooks config:
 
 ```json
 {
