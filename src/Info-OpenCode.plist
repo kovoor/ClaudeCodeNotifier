@@ -3,11 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.claude.code.notifier</string>
+	<string>co.kovoor.opencode.notifier</string>
 	<key>CFBundleName</key>
-	<string>Claude Code Notifier</string>
+	<string>OpenCode Notifier</string>
 	<key>CFBundleDisplayName</key>
-	<string>Claude Code Notifier</string>
+	<string>OpenCode Notifier</string>
 	<key>CFBundleExecutable</key>
 	<string>ClaudeNotifier</string>
 	<key>CFBundleIconFile</key>

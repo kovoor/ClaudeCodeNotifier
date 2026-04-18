@@ -50,18 +50,19 @@ if [ -z "$TAB_LABEL" ]; then
 fi
 
 APP="$HOME/.claude/ClaudeCodeNotifier.app"
+TITLE="Claude Code"
 
 case "$NOTIFICATION_TYPE" in
   permission_prompt)
-    open -n "$APP" --args "[$TAB_LABEL] Permission required" "${MESSAGE:-Claude needs your permission to continue}"
+    open -n "$APP" --args "$TITLE" "[$TAB_LABEL] Permission required" "${MESSAGE:-Claude needs your permission to continue}"
     ;;
   idle_prompt)
-    open -n "$APP" --args "[$TAB_LABEL] Task complete" "${MESSAGE:-Claude is waiting for your input}"
+    open -n "$APP" --args "$TITLE" "[$TAB_LABEL] Task complete" "${MESSAGE:-Claude is waiting for your input}"
     ;;
   elicitation_dialog)
-    open -n "$APP" --args "[$TAB_LABEL] Input needed" "${MESSAGE:-Claude has a question for you}"
+    open -n "$APP" --args "$TITLE" "[$TAB_LABEL] Input needed" "${MESSAGE:-Claude has a question for you}"
     ;;
   *)
-    open -n "$APP" --args "[$TAB_LABEL] Attention needed" "${MESSAGE:-Claude Code needs your attention}"
+    open -n "$APP" --args "$TITLE" "[$TAB_LABEL] Attention needed" "${MESSAGE:-Claude Code needs your attention}"
     ;;
 esac
