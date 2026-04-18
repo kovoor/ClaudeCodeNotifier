@@ -48,10 +48,11 @@ else
   echo "      Install OpenCode and rerun this script to enable OpenCode notifications."
 fi
 
-# Install Claude Code hook
+# Install Claude Code hook + shared tab-detection helper
 mkdir -p "$INSTALL_DIR/hooks"
 cp "$SCRIPT_DIR/hooks/notification-desktop.sh" "$INSTALL_DIR/hooks/notification-desktop.sh"
-chmod +x "$INSTALL_DIR/hooks/notification-desktop.sh"
+cp "$SCRIPT_DIR/hooks/detect-ghostty-tab.sh" "$INSTALL_DIR/hooks/detect-ghostty-tab.sh"
+chmod +x "$INSTALL_DIR/hooks/notification-desktop.sh" "$INSTALL_DIR/hooks/detect-ghostty-tab.sh"
 
 # Install OpenCode plugin (auto-loaded from ~/.config/opencode/plugins/)
 OPENCODE_PLUGIN_DIR="$HOME/.config/opencode/plugins"

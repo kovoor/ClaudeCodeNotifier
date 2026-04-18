@@ -3,9 +3,11 @@
 // ~/.claude/OpenCodeNotifier.app. Idle banners fire only after the session
 // was busy (avoids startup noise); subagent sessions are filtered out.
 
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
 
 const APP_PATH = `${process.env.HOME}/.claude/OpenCodeNotifier.app`;
+const DETECT_SCRIPT = `${process.env.HOME}/.claude/hooks/detect-ghostty-tab.sh`;
 const TITLE = "OpenCode";
 
 export const OpenCodeNotifierPlugin = async ({ project, directory }) => {
@@ -15,7 +17,24 @@ export const OpenCodeNotifierPlugin = async ({ project, directory }) => {
   const MAX_LABEL = 20;
   const truncate = (s) =>
     s.length > MAX_LABEL ? s.slice(0, MAX_LABEL - 1) + "…" : s;
+
+  const detectGhosttyTab = () => {
+    if (!existsSync(DETECT_SCRIPT)) return "";
+    try {
+      const result = spawnSync("/bin/bash", [DETECT_SCRIPT, String(process.pid)], {
+        encoding: "utf8",
+        timeout: 2000,
+      });
+      const idx = (result.stdout || "").trim();
+      return idx ? `#${idx}` : "";
+    } catch (_) {
+      return "";
+    }
+  };
+
   const label = () => {
+    const tab = detectGhosttyTab();
+    if (tab) return tab;
     const dir = project?.directory || directory || process.cwd();
     try {
       return truncate(dir.split("/").filter(Boolean).pop() || "opencode");

@@ -40,11 +40,12 @@ else
   echo "      Install OpenCode and rerun this script to enable OpenCode notifications."
 fi
 
-# Download and install Claude Code hook
+# Download and install Claude Code hook + shared tab-detection helper
 echo "Installing Claude Code notification hook..."
 mkdir -p "$INSTALL_DIR/hooks"
 curl -fsSL "https://raw.githubusercontent.com/$REPO/main/hooks/notification-desktop.sh" -o "$INSTALL_DIR/hooks/notification-desktop.sh"
-chmod +x "$INSTALL_DIR/hooks/notification-desktop.sh"
+curl -fsSL "https://raw.githubusercontent.com/$REPO/main/hooks/detect-ghostty-tab.sh" -o "$INSTALL_DIR/hooks/detect-ghostty-tab.sh"
+chmod +x "$INSTALL_DIR/hooks/notification-desktop.sh" "$INSTALL_DIR/hooks/detect-ghostty-tab.sh"
 
 # Download and install OpenCode plugin
 echo "Installing OpenCode notification plugin..."
