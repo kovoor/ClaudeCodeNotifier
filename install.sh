@@ -30,23 +30,17 @@ codesign --force --sign - "$APP_DIR"
 
 # Build OpenCodeNotifier.app — separate bundle with OpenCode icon so macOS
 # renders the OpenCode logo on the notification banner.
-OPENCODE_ICNS="/Applications/OpenCode.app/Contents/Resources/icon.icns"
 OC_APP_DIR="$INSTALL_DIR/OpenCodeNotifier.app"
-if [ -f "$OPENCODE_ICNS" ]; then
-  echo "Building OpenCodeNotifier.app..."
-  rm -rf "$OC_APP_DIR"
-  mkdir -p "$OC_APP_DIR/Contents/MacOS"
-  mkdir -p "$OC_APP_DIR/Contents/Resources"
-  # Share the compiled binary across bundles.
-  cp "$APP_DIR/Contents/MacOS/ClaudeNotifier" "$OC_APP_DIR/Contents/MacOS/ClaudeNotifier"
-  cp "$SCRIPT_DIR/src/Info-OpenCode.plist" "$OC_APP_DIR/Contents/Info.plist"
-  cp "$OPENCODE_ICNS" "$OC_APP_DIR/Contents/Resources/AppIcon.icns"
-  codesign --force --sign - "$OC_APP_DIR"
-  /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$OC_APP_DIR"
-else
-  echo "Note: /Applications/OpenCode.app not found — skipping OpenCodeNotifier.app build."
-  echo "      Install OpenCode and rerun this script to enable OpenCode notifications."
-fi
+echo "Building OpenCodeNotifier.app..."
+rm -rf "$OC_APP_DIR"
+mkdir -p "$OC_APP_DIR/Contents/MacOS"
+mkdir -p "$OC_APP_DIR/Contents/Resources"
+# Share the compiled binary across bundles.
+cp "$APP_DIR/Contents/MacOS/ClaudeNotifier" "$OC_APP_DIR/Contents/MacOS/ClaudeNotifier"
+cp "$SCRIPT_DIR/src/Info-OpenCode.plist" "$OC_APP_DIR/Contents/Info.plist"
+cp "$SCRIPT_DIR/assets/opencode-icon.icns" "$OC_APP_DIR/Contents/Resources/AppIcon.icns"
+codesign --force --sign - "$OC_APP_DIR"
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$OC_APP_DIR"
 
 # Install Claude Code hook + shared tab-detection helper
 mkdir -p "$INSTALL_DIR/hooks"
@@ -110,17 +104,13 @@ fi
 echo ""
 echo "Requesting notification permission..."
 open "$APP_DIR" --args "Claude Code" "Setup complete" "ClaudeCodeNotifier is ready"
-if [ -d "$OC_APP_DIR" ]; then
-  open "$OC_APP_DIR" --args "OpenCode" "Setup complete" "OpenCodeNotifier is ready"
-fi
+open "$OC_APP_DIR" --args "OpenCode" "Setup complete" "OpenCodeNotifier is ready"
 
 echo ""
 echo "Installation complete!"
 echo ""
 echo "  Claude app:      $APP_DIR"
-if [ -d "$OC_APP_DIR" ]; then
-  echo "  OpenCode app:    $OC_APP_DIR"
-fi
+echo "  OpenCode app:    $OC_APP_DIR"
 echo "  Claude hook:     $INSTALL_DIR/hooks/notification-desktop.sh"
 echo "  OpenCode plugin: $OPENCODE_PLUGIN_DIR/opencode-notifier.js"
 echo ""

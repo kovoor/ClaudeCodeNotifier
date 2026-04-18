@@ -33,7 +33,6 @@ Each notification shows which **terminal tab** or **project directory** triggere
 - macOS
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) and/or [OpenCode](https://opencode.ai)
 - [jq](https://jqlang.github.io/jq/) (`brew install jq`) — required for the Claude Code hook
-- [OpenCode.app](https://opencode.ai) at `/Applications/OpenCode.app` — the OpenCode icon is extracted from its bundle at install time (optional; without it OpenCode notifications fall back to the Claude icon)
 - Terminal of your choice (currently best supported with [Ghostty](https://ghostty.org/))
 
 ## Quick install
@@ -85,13 +84,13 @@ If you already have a `~/.claude/settings.json`, merge the hooks config:
 
 ### OpenCode plugin
 
-The installer builds a second app bundle — `OpenCodeNotifier.app` — at `~/.claude/OpenCodeNotifier.app`, using the icon pulled from your local `/Applications/OpenCode.app`. It also drops `opencode-notifier.js` into `~/.config/opencode/plugins/`, which OpenCode auto-loads at startup — no additional config required. The plugin fires banners on:
+The installer builds a second app bundle — `OpenCodeNotifier.app` — at `~/.claude/OpenCodeNotifier.app`, using the OpenCode icon bundled with this repo. It also drops `opencode-notifier.js` into `~/.config/opencode/plugins/`, which OpenCode auto-loads at startup — no additional config required. The plugin fires banners on:
 
 - **`permission.ask`** — OpenCode wants to run a tool and needs your approval
 - **`session.idle`** — OpenCode finished a task and is waiting (only fires after a busy state, to avoid startup noise)
 - **`session.error`** — something went wrong
 
-Subagent (child session) idles are suppressed, so you only hear from the root session. If `/Applications/OpenCode.app` is missing at install time, the OpenCode bundle is skipped — install OpenCode and rerun the installer.
+Subagent (child session) idles are suppressed, so you only hear from the root session.
 
 ## How Ghostty tab detection works
 
