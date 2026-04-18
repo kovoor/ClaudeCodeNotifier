@@ -12,10 +12,13 @@ export const OpenCodeNotifierPlugin = async ({ project, directory }) => {
   if (globalThis.__opencodeNotifierLoaded) return {};
   globalThis.__opencodeNotifierLoaded = true;
 
+  const MAX_LABEL = 20;
+  const truncate = (s) =>
+    s.length > MAX_LABEL ? s.slice(0, MAX_LABEL - 1) + "…" : s;
   const label = () => {
     const dir = project?.directory || directory || process.cwd();
     try {
-      return dir.split("/").filter(Boolean).pop() || "opencode";
+      return truncate(dir.split("/").filter(Boolean).pop() || "opencode");
     } catch (_) {
       return "opencode";
     }

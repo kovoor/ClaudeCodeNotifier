@@ -47,6 +47,10 @@ fi
 
 if [ -z "$TAB_LABEL" ]; then
   TAB_LABEL=$(basename "${PWD:-unknown}")
+  # Truncate long directory names so the "[label] ..." subtitle stays readable.
+  if [ ${#TAB_LABEL} -gt 20 ]; then
+    TAB_LABEL="${TAB_LABEL:0:19}…"
+  fi
 fi
 
 APP="$HOME/.claude/ClaudeCodeNotifier.app"
