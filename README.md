@@ -59,9 +59,22 @@ cd ClaudeCodeNotifier
 2. **Ghostty accessibility** *(optional)* — For tab detection, grant Ghostty access in System Settings > Privacy & Security > Accessibility
 3. **Restart Claude Code and OpenCode** for the new hook/plugin to take effect
 
+### File locations
+
+ClaudeCodeNotifier follows the [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html):
+
+| Path | Contents |
+|------|----------|
+| `$CLAUDE_CONFIG_DIR/hooks/notification-desktop.sh` (default `~/.claude/hooks/`) | Claude-specific notification hook script |
+| `$XDG_DATA_HOME/claude-code-notifier/` (default `~/.local/share/claude-code-notifier/`) | `.app` bundles and `lib/detect-ghostty-tab.sh` (shared by Claude hook + OpenCode plugin) |
+| `$XDG_CONFIG_HOME/opencode/plugins/opencode-notifier.js` (default `~/.config/opencode/plugins/`) | OpenCode plugin |
+| `$CLAUDE_CONFIG_DIR/settings.json` (default `~/.claude/settings.json`) | Claude Code hook config (referenced, not auto-edited if it exists) |
+
+Override `XDG_DATA_HOME`, `XDG_CONFIG_HOME`, or `CLAUDE_CONFIG_DIR` before running the installer to relocate any of these.
+
 ### Manual configuration
 
-If you already have a `~/.claude/settings.json`, merge the hooks config:
+If you already have a `settings.json`, merge the hooks config:
 
 ```json
 {
@@ -84,7 +97,7 @@ If you already have a `~/.claude/settings.json`, merge the hooks config:
 
 ### OpenCode plugin
 
-The installer builds a second app bundle — `OpenCodeNotifier.app` — at `~/.claude/OpenCodeNotifier.app`, using the OpenCode icon bundled with this repo. It also drops `opencode-notifier.js` into `~/.config/opencode/plugins/`, which OpenCode auto-loads at startup — no additional config required. The plugin fires banners on:
+If `opencode` is on your `PATH` at install time, the installer also builds `OpenCodeNotifier.app` at `$XDG_DATA_HOME/claude-code-notifier/OpenCodeNotifier.app` (using the OpenCode icon bundled with this repo) and drops `opencode-notifier.js` into `$XDG_CONFIG_HOME/opencode/plugins/`, which OpenCode auto-loads at startup. If OpenCode isn't installed, the installer skips both — re-run it after you install OpenCode to add support. The plugin fires banners on:
 
 - **`permission.ask`** — OpenCode wants to run a tool and needs your approval
 - **`session.idle`** — OpenCode finished a task and is waiting (only fires after a busy state, to avoid startup noise)

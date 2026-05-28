@@ -11,9 +11,11 @@ if [ -z "$NOTIFICATION_TYPE" ]; then
   exit 0
 fi
 
+XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+INSTALL_DIR="$XDG_DATA_HOME/claude-code-notifier"
+
 TAB_LABEL=""
-HOOK_DIR="$(cd "$(dirname "$0")" && pwd)"
-DETECT="$HOOK_DIR/detect-ghostty-tab.sh"
+DETECT="$INSTALL_DIR/lib/detect-ghostty-tab.sh"
 if [ "$TERM_PROGRAM" = "ghostty" ] && [ -x "$DETECT" ]; then
   TAB_INDEX=$("$DETECT" "$$" 2>/dev/null)
   if [ -n "$TAB_INDEX" ]; then
@@ -28,7 +30,7 @@ if [ -z "$TAB_LABEL" ]; then
   fi
 fi
 
-APP="$HOME/.claude/ClaudeCodeNotifier.app"
+APP="$INSTALL_DIR/ClaudeCodeNotifier.app"
 TITLE="Claude Code"
 
 case "$NOTIFICATION_TYPE" in
