@@ -1,13 +1,16 @@
 // ClaudeCodeNotifier — OpenCode plugin
 // Fires native macOS banners for OpenCode session events via
-// ~/.claude/OpenCodeNotifier.app. Idle banners fire only after the session
-// was busy (avoids startup noise); subagent sessions are filtered out.
+// $XDG_DATA_HOME/claude-code-notifier/OpenCodeNotifier.app. Idle banners fire
+// only after the session was busy (avoids startup noise); subagent sessions
+// are filtered out.
 
 import { spawn, spawnSync } from "node:child_process";
 import { existsSync } from "node:fs";
 
-const APP_PATH = `${process.env.HOME}/.claude/OpenCodeNotifier.app`;
-const DETECT_SCRIPT = `${process.env.HOME}/.claude/hooks/detect-ghostty-tab.sh`;
+const XDG_DATA_HOME = process.env.XDG_DATA_HOME || `${process.env.HOME}/.local/share`;
+const INSTALL_DIR = `${XDG_DATA_HOME}/claude-code-notifier`;
+const APP_PATH = `${INSTALL_DIR}/OpenCodeNotifier.app`;
+const DETECT_SCRIPT = `${INSTALL_DIR}/lib/detect-ghostty-tab.sh`;
 const TITLE = "OpenCode";
 
 export const OpenCodeNotifierPlugin = async ({ project, directory }) => {
